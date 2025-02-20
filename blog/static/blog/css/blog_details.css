@@ -1,0 +1,115 @@
+@font-face { font-family: UAV; font-weight: bold; src: url('../fonts/UAV-OSD-Mono.ttf');}
+@font-face { font-family: MONO; font-weight: bold; src: url('../fonts/Mono-Regular.ttf');}
+@font-face { font-family: MONO-BOLD; font-weight: bold; src: url('../fonts/Mono-Bold.ttf');}
+
+h3{
+    text-align: center;
+    font-size: 60px;
+    font-family: UAV;
+}
+nav{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+
+}
+a{
+    display: block;
+    width: fit-content;
+    margin: auto;
+    display:block; 
+    text-align: center;
+}
+a:link {
+  text-decoration: none;
+  color: black;
+}
+a:visited {
+    text-decoration: none;
+    color: black; 
+}
+a:active {
+    text-decoration: underline;
+}
+a:hover{
+    text-decoration: underline;
+}
+ul {
+    font-family: UAV;
+    display: flex;
+    gap: 20px; 
+    list-style-type: none; 
+
+}
+li {
+    font-family: UAV;
+    text-align: center;
+}
+a {
+    font-family: UAV;
+    display: block; 
+    text-align: center;
+}
+p{
+    margin-bottom: 16px; 
+    line-height: 1.6; 
+    max-width: 800px; 
+    margin: 0 auto; 
+    margin-bottom: 30px;
+    font-family: MONO;
+    padding-top: 20px;
+    font-size: 20px;
+}
+:root{
+  --base-color:white;
+  --text-color: black;
+}
+.darkmode {
+  --base-color:black;
+  --text-color: green;
+}
+body {
+  background-color: var(--base-color);
+  color: var(--text-color);
+  animation: grow 1s;
+
+}
+#theme-switch{
+  height: 50px;
+  width: 50px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: var(--base-color);
+  border-color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+#theme-switch svg{
+  fill: var(--text-color);
+}
+#theme-switch svg:last-child{
+  display: none;
+}
+.darkmode #theme-switch svg:first-child{
+  display: none;
+}
+.darkmode #theme-switch svg:last-child{
+  display: block;
+}
+
+.darkmode a:link, 
+.darkmode a:visited, 
+.darkmode a:hover, 
+.darkmode a:active {
+  color: var(--text-color);
+}
+
+.darkmode a{
+  color: green;
+}
+
+  
