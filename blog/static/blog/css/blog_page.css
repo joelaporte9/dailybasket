@@ -59,7 +59,7 @@ footer{
 }
 .darkmode {
   --base-color:black;
-  --text-color: green;
+  --text-color: rgb(1, 109, 1);
 }
 body {
   background-color: var(--base-color);

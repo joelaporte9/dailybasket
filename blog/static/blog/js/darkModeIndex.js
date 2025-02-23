@@ -5,20 +5,14 @@ let ascii_img = localStorage.getItem('ascii_img')
 
 const themeswitch = document.getElementById('theme-switch')
 const bannerImg = document.getElementById("banner")
-const darkmodebanner = "/static/blog/images/8bitimage2.jpg"
 const lightmodebanner = "/static/blog/images/WebsitebannerEdited.jpg"
-const ascii_image= "/static/blog/images/output.txt";
 
-// USE LOCAL STORAGE TO FIGURE OUT HOW TO KEEEP TEXT ON THE SCREEN
-const enableDarkmode = () => {
+const enableDarkmode = async ()  => {
     document.body.classList.add('darkmode')
     localStorage.setItem('darkmode', 'active')
-    // if (document.body.contains(bannerImg)) {
-    //     updateBannerDarkMode();
-    // }
-    
+
 }
-const disableDarkmode = () => {
+const disableDarkmode = async () => {
     document.body.classList.remove('darkmode')
     localStorage.setItem('darkmode', null)
     let pre = document.getElementById("ascii");
@@ -29,8 +23,6 @@ const disableDarkmode = () => {
     }
 }
 
-//pre.innerHTML = localStorage.getItem('ascii_img')
-
 // Using fetch with await 
 const updateBannerDarkMode = async () => {
     let response = await fetch('/ascii/', {
@@ -40,6 +32,7 @@ const updateBannerDarkMode = async () => {
             'Content-Type': 'application/json'
         }
     })
+
     // getting the response from python view and turningit into text
     // then we get the image banner and create a new pre tag
     // asign the pre tag and ID "ascii" and split text into new lines
@@ -48,20 +41,7 @@ const updateBannerDarkMode = async () => {
     let preElement = document.createElement("pre");
     preElement.id = "ascii";
     let lines = data.split("\n")
-    
-    // This function handles the typewriter affect of the ascii text rendering
-    // takes in the lines from the steps above, and loops through line by line 
-    // stores the lines in local stage and reads it as a string
-    function textTyping(preElement, lines, i = 0) {
-        
-        if (i < lines.length) 
-        {  
-            preElement.textContent += lines[i] + '\n'
-        }
-        setTimeout(() => textTyping(preElement, lines, i + 1), 30);
-        localStorage.setItem("ascii_img", JSON.stringify(lines));
-    }
-    textTyping(preElement, lines);
+    localStorage.setItem("ascii_img", JSON.stringify(lines));
 
     // If the banner exists when dark mode is selcted, change it to ascii
     if (imgElement){
@@ -78,10 +58,23 @@ const updateBannerDarkMode = async () => {
             preEl.textContent = asciiData.join('\n');
             divContainer.append(preEl) 
         }
-        else{
-            updateBannerLightMode()
-        }
+       
     }
+
+    // This function handles the typewriter affect of the ascii text rendering
+    // takes in the lines from the steps above, and loops through line by line 
+    // stores the lines in local stage and reads it as a string
+    function textTyping(preElement, lines, i = 0) {
+        
+        if (i < lines.length) 
+        {  
+            preElement.textContent += lines[i] + '\n'
+            setTimeout(() => textTyping(preElement, lines, i + 1), 30);
+        }
+        
+    }
+    textTyping(preElement, lines);
+
 }
 
 //Using fetch with .then 
@@ -100,15 +93,24 @@ const updateBannerLightMode = () => {
         })
         .catch(error => console.error("Error loading banner image:", error)); 
 }
- 
+
 if (darkmode === "active"){
     enableDarkmode()
     updateBannerDarkMode()
 }
+
+// DOMCONTENT LOAD https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event
+
+// add banner switch function 
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    ascii_img = localStorage.getItem('ascii_img')
+
+});
 // swicth the update banner method and the gewt items 
 themeswitch.addEventListener("click", () =>{
     darkmode = localStorage.getItem('darkmode')
-    ascii_img = localStorage.getItem("ascii_img")
+
     if (darkmode !== "active"){
         enableDarkmode()
         updateBannerDarkMode()
