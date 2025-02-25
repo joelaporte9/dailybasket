@@ -77,10 +77,11 @@ def ascii_image(request):
 
             textfile.write('\n')
 
-        f = open("output.txt", "r")
+        file = open("output.txt", "r")
+        
 
-        lines = f.read()
-        # lines = lines[:-1]
+        lines = file.readlines()
+        lines = lines[:-1]
     
         return HttpResponse(lines, content_type="text/plain")
     return render(request, "blog/index.html")

@@ -24,8 +24,7 @@ const disableDarkmode = () => {
     }
 } 
 
-
-const updateBannerDarkMode = async () => {
+const getasciiData = async () => {
     let response = await fetch('/ascii/', {
         method: 'GET',
         headers: {
@@ -34,12 +33,25 @@ const updateBannerDarkMode = async () => {
         }
     })
 
-    let data = await response.text()
+    return await response.text()
+}
+
+function textTyping(preElement, lines, i = 0) {
+        
+    if (i < lines.length) 
+    {  
+        preElement.textContent += lines[i] + '\n'
+        setTimeout(() => textTyping(preElement, lines, i + 1), 30);
+    }
+}
+
+const loadAscii = async () => {
+    let data = await getasciiData()
     let imgElement = document.getElementById("banner");
     let preElement = document.createElement("pre");
     preElement.id = "ascii";
     let lines = data.split("\n")
-    localStorage.setItem("ascii_img", JSON.stringify(lines));
+    let localStoageData = localStorage.setItem("ascii_img", JSON.stringify(lines));
 
     if (imgElement){
         imgElement.parentNode.replaceChild(preElement, imgElement);
@@ -56,15 +68,7 @@ const updateBannerDarkMode = async () => {
             divContainer.append(preEl) 
         }
     }
-    textTyping(preElement, lines);
-}
 
-function textTyping(preElement, lines, i = 0) {
-        
-    if (i < lines.length) {  
-        preElement.textContent += lines[i] + '\n'
-        setTimeout(() => textTyping(preElement, lines, i + 1), 30);
-    }
 }
 
 const updateBannerLightMode = async () => {
@@ -75,46 +79,45 @@ const updateBannerLightMode = async () => {
             'Content-Type': 'application/json'
         }
     })
+    
     let data = await response.blob()
     let preElement1 = document.getElementById("ascii");
+
     let imgElement = document.createElement("img");
     const objectURL = URL.createObjectURL(data);
     imgElement.src = objectURL;
+            
     preElement1.parentNode.replaceChild(imgElement, preElement1);
 }
-
 // THIS IS WHERE I NEED T MAKE THE ASCII ART STAY OIN THEME SWITCH AND LOAD
 if (darkmode === "active"){
     enableDarkmode()
-    let asciiData = JSON.parse(localStorage.getItem('ascii_img'));
+    loadAscii()
 
-    if (!asciiData)
-    {
-        updateBannerDarkMode()
-    }
-    else
-    {
-        let pre = document.getElementById("ascii");
-        let divContainer = document.getElementById("contain")
 
-        if (!pre){ 
-            let imgElement = document.getElementById("banner");
-            imgElement.remove()
-            let preEl = document.createElement("pre");
-            preEl.id = "ascii"
-            let asciiData = JSON.parse(localStorage.getItem('ascii_img'));
-            preEl.textContent = asciiData.join('\n');
-            divContainer.append(preEl) 
-        }
-    }
-    
+
+    //updateBannerDarkMode()
+    // let pre = document.getElementById("ascii");
+    // let divContainer = document.getElementById("contain")
+
+    // if (!pre){   
+
+    //     let preEl = document.createElement("pre");
+    //     preEl.id = "ascii"
+    //     let asciiData = JSON.parse(localStorage.getItem('ascii_img'));
+    //     preEl.textContent = asciiData.join('\n');
+    //     divContainer.append(preEl) 
+    // }
+  
 }
 
 themeswitch.addEventListener("click", () =>{
     darkmode = localStorage.getItem('darkmode')
     if (darkmode !== "active"){
         enableDarkmode()
-        updateBannerDarkMode()
+        loadAscii()
+
+        //updateBannerDarkMode()
     }
     else{
         disableDarkmode();

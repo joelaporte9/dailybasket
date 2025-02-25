@@ -19,9 +19,9 @@ img{
 }
 
 .container pre {
-  display: inline-block; /* Allows width control */
-  text-align: left; /* Ensures text inside is left-aligned */
-  font-size: 6.5px; /* Adjust based on readability */
+  display: block; 
+  text-align: center; 
+  font-size: 6.7px;
   max-width: 100%;
   white-space: pre;
 }
@@ -48,14 +48,19 @@ img{
 
 @media (max-width: 480px) {
   .container pre {
-      font-size: 5.6px; /* Adjust based on readability */
-
+      font-size: 5.6px; 
     }
 }
 
 @media (max-width: 768px) {
   .container pre {
-      font-size: 5.2px; /* Adjust based on readability */
+      font-size: 5.2px; 
+
+    }
+}
+@media (max-width: 615px) {
+  .container pre {
+      font-size: .2px; 
 
     }
 }
@@ -116,7 +121,7 @@ body {
 }
 
 .darkmode a{
-  color: green;
+  color: var(--text-color);
 }
 
 ul {
